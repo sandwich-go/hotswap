@@ -3,8 +3,8 @@
 package plugin
 
 import (
-	"github.com/edwingeng/hotswap"
-	dog "github.com/edwingeng/hotswap/demo/slink/plugin/dog"
+	"github.com/sandwich-go/hotswap"
+	dog "github.com/sandwich-go/hotswap/demo/slink/plugin/dog"
 )
 
 func init() {

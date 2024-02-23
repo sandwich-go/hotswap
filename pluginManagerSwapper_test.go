@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/edwingeng/hotswap/internal/hutils"
+	"github.com/sandwich-go/hotswap/internal/hutils"
 )
 
 func newSwapper(pluginDir string, opts ...Option) *PluginManagerSwapper {

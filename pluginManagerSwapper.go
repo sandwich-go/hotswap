@@ -13,8 +13,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/edwingeng/hotswap/internal/hutils"
 	"github.com/edwingeng/slog"
+	"github.com/sandwich-go/hotswap/internal/hutils"
 )
 
 var (
@@ -60,6 +60,10 @@ func NewPluginManagerSwapper(pluginDir string, opts ...Option) *PluginManagerSwa
 		opt(swapper)
 	}
 	return swapper
+}
+
+func (sw *PluginManagerSwapper) ResetPluginDir(pluginDir string) {
+	sw.opts.pluginDir = pluginDir
 }
 
 func (sw *PluginManagerSwapper) Current() *PluginManager {

@@ -3,7 +3,7 @@ package hum
 import (
 	"strings"
 
-	"github.com/edwingeng/hotswap/demo/hello/g"
+	"github.com/sandwich-go/hotswap/demo/hello/g"
 )
 
 func Hum(pluginName string, compileTimeString string, repeat int) {

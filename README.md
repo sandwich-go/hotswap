@@ -18,7 +18,7 @@
 # Getting Started
 
 ```
-go install github.com/edwingeng/hotswap/cli/hotswap
+go install github.com/sandwich-go/hotswap/cli/hotswap
 ```
 
 # Build a Plugin from Source Code

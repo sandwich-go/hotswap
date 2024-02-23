@@ -3,11 +3,11 @@ package dog
 import (
 	"fmt"
 
-	"github.com/edwingeng/hotswap/demo/slink/g"
-	"github.com/edwingeng/hotswap/demo/slink/plugin/dog/woof/pg"
-	"github.com/edwingeng/hotswap/vault"
 	"github.com/edwingeng/live"
 	"github.com/edwingeng/tickque"
+	"github.com/sandwich-go/hotswap/demo/slink/g"
+	"github.com/sandwich-go/hotswap/demo/slink/plugin/dog/woof/pg"
+	"github.com/sandwich-go/hotswap/vault"
 )
 
 const (

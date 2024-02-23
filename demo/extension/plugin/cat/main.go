@@ -1,9 +1,9 @@
 package cat
 
 import (
-	"github.com/edwingeng/hotswap/demo/extension/g"
-	"github.com/edwingeng/hotswap/demo/extension/plugin/cat/meow"
-	"github.com/edwingeng/hotswap/vault"
+	"github.com/sandwich-go/hotswap/demo/extension/g"
+	"github.com/sandwich-go/hotswap/demo/extension/plugin/cat/meow"
+	"github.com/sandwich-go/hotswap/vault"
 )
 
 const (

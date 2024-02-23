@@ -9,9 +9,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/edwingeng/hotswap/cli/hotswap/trial/export/importall"
-	"github.com/edwingeng/hotswap/internal/hutils"
 	"github.com/edwingeng/slog"
+	"github.com/sandwich-go/hotswap/cli/hotswap/trial/export/importall"
+	"github.com/sandwich-go/hotswap/internal/hutils"
 )
 
 func init() {

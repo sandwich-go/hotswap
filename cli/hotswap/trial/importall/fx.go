@@ -1,8 +1,8 @@
 package importall
 
 import (
-	"github.com/edwingeng/hotswap/cli/hotswap/trial/export/arya"
-	"github.com/edwingeng/hotswap/cli/hotswap/trial/export/snow"
+	"github.com/sandwich-go/hotswap/cli/hotswap/trial/export/arya"
+	"github.com/sandwich-go/hotswap/cli/hotswap/trial/export/snow"
 )
 
 var fx struct {

@@ -1,10 +1,10 @@
 package g
 
 import (
-	"github.com/edwingeng/hotswap"
 	"github.com/edwingeng/live"
 	"github.com/edwingeng/slog"
 	"github.com/edwingeng/tickque"
+	"github.com/sandwich-go/hotswap"
 )
 
 var (

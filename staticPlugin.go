@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/edwingeng/hotswap/vault"
+	"github.com/sandwich-go/hotswap/vault"
 )
 
 func NewPluginFuncs(

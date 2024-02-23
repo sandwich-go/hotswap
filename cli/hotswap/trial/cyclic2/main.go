@@ -3,7 +3,7 @@ package cyclic2
 import (
 	"os"
 
-	"github.com/edwingeng/hotswap/vault"
+	"github.com/sandwich-go/hotswap/vault"
 )
 
 func OnLoad(data interface{}) error {

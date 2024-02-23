@@ -3,9 +3,9 @@ package needle
 import (
 	"fmt"
 
-	"github.com/edwingeng/hotswap/cli/hotswap/trial/syrio"
-	"github.com/edwingeng/hotswap/internal/hctx"
-	"github.com/edwingeng/hotswap/internal/hutils"
+	"github.com/sandwich-go/hotswap/cli/hotswap/trial/syrio"
+	"github.com/sandwich-go/hotswap/internal/hctx"
+	"github.com/sandwich-go/hotswap/internal/hutils"
 )
 
 var (

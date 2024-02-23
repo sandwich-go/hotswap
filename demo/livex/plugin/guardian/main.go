@@ -3,12 +3,12 @@ package guardian
 import (
 	"fmt"
 
-	"github.com/edwingeng/hotswap/demo/livex/g"
-	"github.com/edwingeng/hotswap/demo/livex/plugin/guardian/job"
-	"github.com/edwingeng/hotswap/demo/livex/plugin/guardian/pg"
-	"github.com/edwingeng/hotswap/vault"
 	"github.com/edwingeng/live"
 	"github.com/edwingeng/tickque"
+	"github.com/sandwich-go/hotswap/demo/livex/g"
+	"github.com/sandwich-go/hotswap/demo/livex/plugin/guardian/job"
+	"github.com/sandwich-go/hotswap/demo/livex/plugin/guardian/pg"
+	"github.com/sandwich-go/hotswap/vault"
 )
 
 const (

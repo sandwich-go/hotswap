@@ -1,8 +1,8 @@
 package beta
 
 import (
-	"github.com/edwingeng/hotswap/demo/trine/g"
-	"github.com/edwingeng/hotswap/demo/trine/plugin/beta/bimpl"
+	"github.com/sandwich-go/hotswap/demo/trine/g"
+	"github.com/sandwich-go/hotswap/demo/trine/plugin/beta/bimpl"
 )
 
 type exportX struct{}

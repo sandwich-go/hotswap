@@ -3,7 +3,7 @@ package xdep
 import (
 	"os"
 
-	"github.com/edwingeng/hotswap/vault"
+	"github.com/sandwich-go/hotswap/vault"
 )
 
 var (

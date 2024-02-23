@@ -1,6 +1,6 @@
 package snow
 
-import "github.com/edwingeng/hotswap/cli/hotswap/trial/export/snow"
+import "github.com/sandwich-go/hotswap/cli/hotswap/trial/export/snow"
 
 var (
 	_ snow.Export = exportX{}

@@ -2,9 +2,10 @@ package gimpl
 
 import (
 	"bytes"
-	"github.com/edwingeng/hotswap/demo/trine/g"
-	"github.com/edwingeng/hotswap/demo/trine/plugin/export"
 	"math/rand"
+
+	"github.com/sandwich-go/hotswap/demo/trine/g"
+	"github.com/sandwich-go/hotswap/demo/trine/plugin/export"
 )
 
 func Pulse(pluginName, compileTimeString string, beta export.BetaExport) {

@@ -1,7 +1,7 @@
 package arya
 
 import (
-	"github.com/edwingeng/hotswap/cli/hotswap/trial/export/arya"
+	"github.com/sandwich-go/hotswap/cli/hotswap/trial/export/arya"
 )
 
 var (

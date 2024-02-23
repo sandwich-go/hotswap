@@ -3,7 +3,7 @@ package importall
 import (
 	"errors"
 
-	"github.com/edwingeng/hotswap/cli/hotswap/trial/export/importall"
+	"github.com/sandwich-go/hotswap/cli/hotswap/trial/export/importall"
 )
 
 var (

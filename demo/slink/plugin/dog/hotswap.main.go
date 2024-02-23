@@ -3,9 +3,9 @@
 package dog
 
 import (
-	"github.com/edwingeng/hotswap/demo/slink/plugin/dog/hotswapbureau"
+	"github.com/sandwich-go/hotswap/demo/slink/plugin/dog/hotswapbureau"
 
-	_ "github.com/edwingeng/hotswap/demo/slink/plugin/dog/woof"
+	_ "github.com/sandwich-go/hotswap/demo/slink/plugin/dog/woof"
 )
 
 func HotswapLiveFuncs() map[string]interface{} {

@@ -11,11 +11,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/edwingeng/hotswap"
-	"github.com/edwingeng/hotswap/demo/livex/g"
-	"github.com/edwingeng/hotswap/internal/hutils"
 	"github.com/edwingeng/live"
 	"github.com/edwingeng/tickque"
+	"github.com/sandwich-go/hotswap"
+	"github.com/sandwich-go/hotswap/demo/livex/g"
+	"github.com/sandwich-go/hotswap/internal/hutils"
 )
 
 func init() {
@@ -62,7 +62,7 @@ func main() {
 	}
 
 	g.LiveConfig = live.NewConfig([]string{
-		"github.com/edwingeng/hotswap/demo/livex/plugin",
+		"github.com/sandwich-go/hotswap/demo/livex/plugin",
 	})
 	g.Tickque = tickque.NewTickque(g.Logger)
 	go func() {

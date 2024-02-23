@@ -11,9 +11,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/edwingeng/hotswap"
-	"github.com/edwingeng/hotswap/demo/trine/g"
-	"github.com/edwingeng/hotswap/internal/hutils"
+	"github.com/sandwich-go/hotswap"
+	"github.com/sandwich-go/hotswap/demo/trine/g"
+	"github.com/sandwich-go/hotswap/internal/hutils"
 )
 
 func init() {

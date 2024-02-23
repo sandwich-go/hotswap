@@ -16,7 +16,7 @@
 # 安装
 
 ```
-go install github.com/edwingeng/hotswap/cli/hotswap
+go install github.com/sandwich-go/hotswap/cli/hotswap
 ```
 
 # 编译插件

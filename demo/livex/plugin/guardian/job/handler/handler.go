@@ -4,8 +4,8 @@ import (
 	"math/rand"
 	"strings"
 
-	"github.com/edwingeng/hotswap/demo/livex/g"
 	"github.com/edwingeng/live"
+	"github.com/sandwich-go/hotswap/demo/livex/g"
 )
 
 var (

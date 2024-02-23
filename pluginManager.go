@@ -15,10 +15,10 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/edwingeng/hotswap/internal/hutils"
-	"github.com/edwingeng/hotswap/vault"
 	"github.com/edwingeng/slog"
 	"github.com/pierrec/xxHash/xxHash32"
+	"github.com/sandwich-go/hotswap/internal/hutils"
+	"github.com/sandwich-go/hotswap/vault"
 )
 
 type PluginManager struct {

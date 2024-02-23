@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/edwingeng/hotswap"
-	"github.com/edwingeng/hotswap/cli/hotswap/trial"
 	"github.com/edwingeng/slog"
+	"github.com/sandwich-go/hotswap"
+	"github.com/sandwich-go/hotswap/cli/hotswap/trial"
 )
 
 func prepareEnv(t *testing.T, env string) {

@@ -34,7 +34,7 @@ function printUsage() {
 
 printImportantMessage "It takes minutes to finish the tests."
 
-go build -o cli/hotswap/hotswap github.com/edwingeng/hotswap/cli/hotswap
+go build -o cli/hotswap/hotswap github.com/sandwich-go/hotswap/cli/hotswap
 [[ $? -ne 0 ]] && exit 1
 
 cli/hotswap/hotswap build --staticLinking cli/hotswap/trial/arya cli/hotswap/trial

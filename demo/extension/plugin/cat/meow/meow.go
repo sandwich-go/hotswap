@@ -3,7 +3,7 @@ package meow
 import (
 	"strings"
 
-	"github.com/edwingeng/hotswap/demo/extension/g"
+	"github.com/sandwich-go/hotswap/demo/extension/g"
 )
 
 func Meow(pluginName string, compileTimeString string, repeat int) {

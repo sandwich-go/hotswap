@@ -6,11 +6,11 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/edwingeng/hotswap/cli/hotswap/trial/arya/needle"
-	"github.com/edwingeng/hotswap/cli/hotswap/trial/arya/pg"
-	"github.com/edwingeng/hotswap/internal/hctx"
-	"github.com/edwingeng/hotswap/vault"
 	"github.com/edwingeng/slog"
+	"github.com/sandwich-go/hotswap/cli/hotswap/trial/arya/needle"
+	"github.com/sandwich-go/hotswap/cli/hotswap/trial/arya/pg"
+	"github.com/sandwich-go/hotswap/internal/hctx"
+	"github.com/sandwich-go/hotswap/vault"
 )
 
 func OnLoad(data interface{}) error {

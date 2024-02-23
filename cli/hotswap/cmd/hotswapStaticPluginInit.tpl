@@ -3,7 +3,7 @@
 package {{.PackageName}}
 
 import (
-	"github.com/edwingeng/hotswap"
+	"github.com/sandwich-go/hotswap"
 	{{.PluginPkgName}} "{{.PluginPkgPath}}"
 )
 

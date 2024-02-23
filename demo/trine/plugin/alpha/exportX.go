@@ -1,8 +1,8 @@
 package alpha
 
 import (
-	"github.com/edwingeng/hotswap/demo/trine/g"
-	"github.com/edwingeng/hotswap/demo/trine/plugin/alpha/aimpl"
+	"github.com/sandwich-go/hotswap/demo/trine/g"
+	"github.com/sandwich-go/hotswap/demo/trine/plugin/alpha/aimpl"
 )
 
 type exportX struct{}
