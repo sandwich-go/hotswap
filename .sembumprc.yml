@@ -1,0 +1,22 @@
+name: hotswap
+
+make_step:
+  - bump
+  - clog
+latest_version_name: Unreleased
+commit_filters:
+  - all
+version_name_with_date: true
+version_name_with_author: true
+issue_uri_format: https://github.com/sandwich-go/%s/issues/%s
+commit_uri_format: https://github.com/sandwich-go/%s/commit/%s
+merge_duplicate_commit: true
+commit_with_author_at_date: true
+short_hash_len: 7
+issue_prefix:
+  - "#"
+sem_initial_version: v1.0.2
+sem_master_branch_name: main
+sem_initial_branch: main
+
+commit_replace:
