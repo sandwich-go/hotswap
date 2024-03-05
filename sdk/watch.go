@@ -68,6 +68,7 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 		},
 		FlagFileName,
 	)
+	logbus.Info("hotswap start watching", logbus.String("watchDir", watchDir))
 	return
 }
 
