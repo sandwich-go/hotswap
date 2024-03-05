@@ -15,7 +15,7 @@ commit_with_author_at_date: true
 short_hash_len: 7
 issue_prefix:
   - "#"
-sem_initial_version: v1.0.2
+sem_initial_version: v1.0.1
 sem_master_branch_name: main
 sem_initial_branch: main
 
