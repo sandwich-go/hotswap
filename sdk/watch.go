@@ -91,7 +91,7 @@ func cleanDir(dir string, dirsToKeep int) {
 	})
 
 	// Keep the latest n directories
-	for i, entry := range entries {
+	for i, entry := range infos {
 		if !entry.IsDir() {
 			continue
 		}
