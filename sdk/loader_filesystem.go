@@ -51,11 +51,8 @@ func (p *filesystemLoader) MustWatch(
 	watchKeyFile string,
 ) {
 
-	watcher, err := filenotify.New()
-	if err != nil {
-		panic("filesystemLoader MustWatch got error: " + err.Error())
-	}
-	if err = watcher.Add(path); err != nil {
+	watcher := filenotify.NewPollingWatcher()
+	if err := watcher.Add(path); err != nil {
 		panic("filesystemLoader MustWatch got error: " + err.Error())
 	}
 	var wg sync.WaitGroup
@@ -87,7 +84,7 @@ func (p *filesystemLoader) MustWatch(
 						}
 					}
 				}
-			case err = <-watcher.Errors():
+			case err := <-watcher.Errors():
 				logbus.Error("plugin filesystemLoader watcher error", logbus.ErrorField(err))
 			case <-exitChan:
 				return
