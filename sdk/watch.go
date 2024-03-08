@@ -54,7 +54,7 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 		loadDir = watchDir
 	}
 
-	loader := NewLocalLoader()
+	loader := newLocalLoader()
 	loader.MustWatch(watchDir, module.ProcessShutdownNotify(),
 		func(ctx context.Context, key string, data []byte) error {
 			GetManager().ResetPluginDir(watchDir)

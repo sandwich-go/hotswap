@@ -23,7 +23,7 @@ type filesystemLoader struct {
 	fileMap map[string]string
 }
 
-func NewLocalLoader() *filesystemLoader {
+func newLocalLoader() *filesystemLoader {
 	return &filesystemLoader{fileMap: make(map[string]string)}
 }
 

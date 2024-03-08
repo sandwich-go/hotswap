@@ -15,6 +15,8 @@ import (
 	"time"
 	"unicode"
 
+	"github.com/rs/xid"
+
 	"github.com/edwingeng/slog"
 	"github.com/pierrec/xxHash/xxHash32"
 	"github.com/sandwich-go/hotswap/internal/hutils"
@@ -37,7 +39,11 @@ type PluginManager struct {
 
 func newPluginManager(log slog.Logger, newExt func() interface{}) *PluginManager {
 	now := time.Now().Format(hutils.CompactDateTimeFormat)
-	dirName := fmt.Sprintf("%s-%d", now, os.Getpid())
+	hostName, err := os.Hostname()
+	if err != nil {
+		hostName = xid.New().String()
+	}
+	dirName := fmt.Sprintf("%s-%s", now, hostName)
 	var ext interface{}
 	if newExt != nil {
 		ext = newExt()
