@@ -11,8 +11,11 @@ import (
 	"time"
 
 	"github.com/fsnotify/fsnotify"
+
 	"github.com/sandwich-go/boost/xpanic"
 	"github.com/sandwich-go/logbus"
+
+	"github.com/sandwich-go/xconf-providers/pkg/filenotify"
 )
 
 type filesystemLoader struct {
@@ -48,7 +51,7 @@ func (p *filesystemLoader) MustWatch(
 	watchKeyFile string,
 ) {
 
-	watcher, err := fsnotify.NewWatcher()
+	watcher, err := filenotify.New()
 	if err != nil {
 		panic("filesystemLoader MustWatch got error: " + err.Error())
 	}
@@ -65,7 +68,7 @@ func (p *filesystemLoader) MustWatch(
 		}()
 		for {
 			select {
-			case event := <-watcher.Events:
+			case event := <-watcher.Events():
 				if (event.Op&fsnotify.Write) == fsnotify.Write ||
 					(event.Op&fsnotify.Create) == fsnotify.Create {
 					changedPath := strings.ReplaceAll(event.Name, "\\", "/")
@@ -84,7 +87,7 @@ func (p *filesystemLoader) MustWatch(
 						}
 					}
 				}
-			case err = <-watcher.Errors:
+			case err = <-watcher.Errors():
 				logbus.Error("plugin filesystemLoader watcher error", logbus.ErrorField(err))
 			case <-exitChan:
 				return
