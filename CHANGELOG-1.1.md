@@ -1,4 +1,12 @@
-### v1.1.3 🌈 (2024-03-08 18:25:57)
+### v1.1.4 🌈 (2024-03-08 19:37:05)
+
+#### 🤖  Tools
+  * **sem**: make changelog ([a30e2a2](https://github.com/sandwich-go/hotswap/commit/a30e2a25f1c47d2aa904df2262633d329ed31b57)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-08 18:26:13 &#43;0800 &#43;0800</small>)
+
+#### 💪  Commit
+  * fix watch ([fed7c12](https://github.com/sandwich-go/hotswap/commit/fed7c12a1e2abbb01504e5df54d69db962e5351a)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-08 19:37:05 &#43;0800 &#43;0800</small>)
+
+### v1.1.3 (2024-03-08 18:25:57)
 
 #### 🐛  Bug Fixed
   * delete dir ([3764b7f](https://github.com/sandwich-go/hotswap/commit/3764b7ff8e18648e604bee7a98ad7d72e70e6912)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-08 18:25:57 &#43;0800 &#43;0800</small>)
