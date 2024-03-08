@@ -31,6 +31,7 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 		// /mount/data/test/gate/online/c2das4/bin/plugin
 		watchDir = path.Join(spec.GetMountDir(), cdEnv, serviceName, stage, commitId, spec.GetInternalDir())
 	}
+	flagFile := path.Join(watchDir, FlagFileName)
 	// 检查目录是否存在
 	_, err := os.Stat(watchDir)
 	if os.IsNotExist(err) {
@@ -45,9 +46,20 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 		panic(err)
 	}
 
-	flagFile := path.Join(watchDir, FlagFileName)
+	// 检查文件是否存在
 	_, err = os.Stat(flagFile)
-	if err != nil {
+	if os.IsNotExist(err) {
+		file, errFile := os.Create(flagFile) // 创建空文件
+		if errFile != nil {
+			panic(errFile)
+		}
+		defer file.Close()
+	} else if err != nil {
+		panic(err)
+	}
+
+	data, err := os.ReadFile(flagFile) // 查看文件是否为空
+	if err != nil || len(data) == 0 {
 		// 使用内部携带的so加载
 		loadDir = spec.GetInternalDir()
 	} else { // 使用外部的so加载
@@ -55,7 +67,7 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 	}
 
 	loader := newLocalLoader()
-	loader.MustWatch(watchDir, module.ProcessShutdownNotify(),
+	loader.MustWatch(flagFile, module.ProcessShutdownNotify(),
 		func(ctx context.Context, key string, data []byte) error {
 			GetManager().ResetPluginDir(watchDir)
 			_, err := GetManager().Reload(nil)
@@ -65,10 +77,8 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 				logbus.Info("hotswap reload success", logbus.String("pluginDir", watchDir))
 			}
 			return nil
-		},
-		FlagFileName,
-	)
-	logbus.Info("hotswap start watching", logbus.String("watchDir", watchDir))
+		})
+	logbus.Info("hotswap start watching", logbus.String("watchFile", flagFile))
 	return
 }
 

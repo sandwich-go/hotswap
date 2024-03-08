@@ -4,9 +4,7 @@ import (
 	"context"
 	"crypto/md5"
 	"fmt"
-	"io/ioutil"
-	"path/filepath"
-	"strings"
+	"os"
 	"sync"
 	"time"
 
@@ -40,16 +38,14 @@ func (p *filesystemLoader) isChange(name string, data []byte) bool {
 	return true
 }
 func (p *filesystemLoader) Name() string                     { return "file-system" }
-func (p *filesystemLoader) Read(path string) ([]byte, error) { return ioutil.ReadFile(path) }
+func (p *filesystemLoader) Read(path string) ([]byte, error) { return os.ReadFile(path) }
 
 type LoaderFunc = func(ctx context.Context, key string, data []byte) error
 
 func (p *filesystemLoader) MustWatch(
 	path string,
 	exitChan chan struct{},
-	loaderFunc LoaderFunc,
-	watchKeyFile string,
-) {
+	loaderFunc LoaderFunc) {
 
 	watcher := filenotify.NewPollingWatcher()
 	if err := watcher.Add(path); err != nil {
@@ -66,20 +62,14 @@ func (p *filesystemLoader) MustWatch(
 		for {
 			select {
 			case event := <-watcher.Events():
-				if (event.Op&fsnotify.Write) == fsnotify.Write ||
-					(event.Op&fsnotify.Create) == fsnotify.Create {
-					changedPath := strings.ReplaceAll(event.Name, "\\", "/")
-					changedKey := filepath.Base(changedPath)
-					if changedKey != watchKeyFile {
-						continue
-					}
-					if b, err := p.Read(changedPath); err == nil {
-						if p.isChange(changedPath, b) {
-							err := loaderFunc(context.Background(), changedKey, b)
+				if (event.Op & fsnotify.Write) == fsnotify.Write {
+					if b, err := p.Read(path); err == nil && len(b) != 0 {
+						if p.isChange(path, b) {
+							err := loaderFunc(context.Background(), path, b)
 							if err != nil {
 								logbus.Error(fmt.Sprintf("plugin local watcher error %s", err.Error()))
 							} else {
-								logbus.Debug("plugin local watcher reload succ", logbus.String("path", changedKey))
+								logbus.Debug("plugin local watcher reload succ", logbus.String("path", path))
 							}
 						}
 					}
