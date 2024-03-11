@@ -3,12 +3,15 @@
 
 package sdk
 
+import "github.com/sandwich-go/hotswap"
+
 // PluginSpec should use NewPluginSpec to initialize it
 type PluginSpec struct {
-	MountDir    string `usage:"磁盘挂载目录"`                   // annotation@MountDir(comment="磁盘挂载目录")
-	HotReload   bool   `usage:"允许热更新，开启watch目录"`          // annotation@HotReload(comment="允许热更新，开启watch目录")
-	DirsToKeep  int    `usage:"同一service, 磁盘保留发布的目录数"`    // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数")
-	InternalDir string `usage:"service pod内部携带的plugin目录"` // annotation@InternalDir(comment="service pod内部携带的plugin目录")
+	MountDir      string                           `usage:"磁盘挂载目录"`                      // annotation@MountDir(comment="磁盘挂载目录")
+	HotReload     bool                             `usage:"允许热更新，开启watch目录"`             // annotation@HotReload(comment="允许热更新，开启watch目录")
+	DirsToKeep    int                              `usage:"同一service, 磁盘保留发布的目录数"`       // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数")
+	InternalDir   string                           `usage:"service pod内部携带的plugin目录"`    // annotation@InternalDir(comment="service pod内部携带的plugin目录")
+	StaticPlugins map[string]*hotswap.StaticPlugin `usage:"宿主程序直接编译的插件 用做debug和windows"` // annotation@StaticPlugins(comment="宿主程序直接编译的插件 用做debug和windows")
 }
 
 // NewPluginSpec new PluginSpec
@@ -74,6 +77,15 @@ func WithInternalDir(v string) PluginSpecOption {
 	}
 }
 
+// WithStaticPlugins 宿主程序直接编译的插件 用做debug和windows
+func WithStaticPlugins(v map[string]*hotswap.StaticPlugin) PluginSpecOption {
+	return func(cc *PluginSpec) PluginSpecOption {
+		previous := cc.StaticPlugins
+		cc.StaticPlugins = v
+		return WithStaticPlugins(previous)
+	}
+}
+
 // InstallPluginSpecWatchDog the installed func will called when NewPluginSpec  called
 func InstallPluginSpecWatchDog(dog func(cc *PluginSpec)) { watchDogPluginSpec = dog }
 
@@ -89,6 +101,7 @@ func newDefaultPluginSpec() *PluginSpec {
 		WithHotReload(true),
 		WithDirsToKeep(10),
 		WithInternalDir("bin/plugin"),
+		WithStaticPlugins(nil),
 	} {
 		opt(cc)
 	}
@@ -97,10 +110,11 @@ func newDefaultPluginSpec() *PluginSpec {
 }
 
 // all getter func
-func (cc *PluginSpec) GetMountDir() string    { return cc.MountDir }
-func (cc *PluginSpec) GetHotReload() bool     { return cc.HotReload }
-func (cc *PluginSpec) GetDirsToKeep() int     { return cc.DirsToKeep }
-func (cc *PluginSpec) GetInternalDir() string { return cc.InternalDir }
+func (cc *PluginSpec) GetMountDir() string                                { return cc.MountDir }
+func (cc *PluginSpec) GetHotReload() bool                                 { return cc.HotReload }
+func (cc *PluginSpec) GetDirsToKeep() int                                 { return cc.DirsToKeep }
+func (cc *PluginSpec) GetInternalDir() string                             { return cc.InternalDir }
+func (cc *PluginSpec) GetStaticPlugins() map[string]*hotswap.StaticPlugin { return cc.StaticPlugins }
 
 // PluginSpecVisitor visitor interface for PluginSpec
 type PluginSpecVisitor interface {
@@ -108,6 +122,7 @@ type PluginSpecVisitor interface {
 	GetHotReload() bool
 	GetDirsToKeep() int
 	GetInternalDir() string
+	GetStaticPlugins() map[string]*hotswap.StaticPlugin
 }
 
 // PluginSpecInterface visitor + ApplyOption interface for PluginSpec

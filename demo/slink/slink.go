@@ -143,4 +143,6 @@ func heartbeat() {
 	if err != nil {
 		g.Logger.Error(err)
 	}
+
+	g.PluginManagerSwapper.Current().InvokeEach("hum", rand.Intn(3)+1)
 }

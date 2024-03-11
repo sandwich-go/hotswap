@@ -17,6 +17,7 @@ func MustInit(spec *PluginSpec) {
 	swapper := hotswap.NewPluginManagerSwapper(pluginDir,
 		hotswap.WithLogger(NewZapLogger()),
 		hotswap.WithFreeDelay(time.Second*15),
+		hotswap.WithStaticPlugins(spec.GetStaticPlugins()),
 	)
 	details, err := swapper.LoadPlugins(nil)
 	if err != nil {

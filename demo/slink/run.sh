@@ -59,7 +59,7 @@ fi
 printf "Building $PROGRAM...\n"
 echo
 
-CGO_ENABLED=1 GOARCH=amd64 go build -trimpath -o "$PROGRAM_BUILD_OUTPUT_DIR"
+CGO_ENABLED=1 GOARCH=arm64 go build -trimpath -o "$PROGRAM_BUILD_OUTPUT_DIR"
 [[ $? -ne 0 ]] && exit 1
 
 if [[ $REPLY =~ ^[Nn]$ ]]; then

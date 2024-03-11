@@ -2,6 +2,7 @@ package dog
 
 import (
 	"fmt"
+	"github.com/sandwich-go/hotswap/demo/slink/plugin/dog/woof"
 
 	"github.com/edwingeng/live"
 	"github.com/edwingeng/tickque"
@@ -41,6 +42,11 @@ func Import() interface{} {
 }
 
 func InvokeFunc(name string, params ...interface{}) (interface{}, error) {
+	switch name {
+	case "hum":
+		repeat := params[0].(int)
+		woof.Hum(pluginName, CompileTimeString, repeat)
+	}
 	return nil, nil
 }
 

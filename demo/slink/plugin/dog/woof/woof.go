@@ -13,3 +13,9 @@ func live_Woof(pluginName string, compileTimeString string, jobData live.Data) e
 		pluginName, compileTimeString, str, g.PluginManagerSwapper.ReloadCounter())
 	return nil
 }
+
+func Hum(pluginName string, compileTimeString string, repeat int) {
+	str := strings.TrimSpace(strings.Repeat("hum ", repeat))
+	g.Logger.Infof("<%s.%s> %s. reloadCounter: %v",
+		pluginName, compileTimeString, str, g.PluginManagerSwapper.ReloadCounter())
+}
