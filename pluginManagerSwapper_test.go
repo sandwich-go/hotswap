@@ -10,7 +10,7 @@ import (
 	"github.com/sandwich-go/hotswap/internal/hutils"
 )
 
-func newSwapper(pluginDir string, opts ...Option) *PluginManagerSwapper {
+func newSwapper(pluginDir string, opts ...SpecOption) *PluginManagerSwapper {
 	n := len(opts)
 	opts = append(opts[:n:n], WithFreeDelay(time.Second), WithExtensionNewer(nilNewer))
 	return NewPluginManagerSwapper(pluginDir, opts...)

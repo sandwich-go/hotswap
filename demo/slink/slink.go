@@ -53,7 +53,7 @@ func main() {
 		panic(err)
 	}
 
-	opts := []hotswap.Option{
+	opts := []hotswap.SpecOption{
 		hotswap.WithLogger(g.Logger),
 		hotswap.WithExtensionNewer(g.NewVaultExtension),
 	}

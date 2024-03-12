@@ -1,8 +1,6 @@
 package sdk
 
 import (
-	"time"
-
 	"github.com/sandwich-go/hotswap"
 	"github.com/sandwich-go/logbus"
 )
@@ -15,9 +13,12 @@ var swapperManager *hotswap.PluginManagerSwapper
 func MustInit(spec *PluginSpec) {
 	pluginDir := initWatchDir(spec)
 	swapper := hotswap.NewPluginManagerSwapper(pluginDir,
-		hotswap.WithLogger(NewZapLogger()),
-		hotswap.WithFreeDelay(time.Second*15),
-		hotswap.WithStaticPlugins(spec.GetStaticPlugins()),
+		hotswap.WithLogger(NewZapLogger()), // use logbus
+		hotswap.WithFreeDelay(spec.GetHotswapSpec().GetFreeDelay()),
+		hotswap.WithWhitelist(spec.GetHotswapSpec().GetWhitelist()...),
+		hotswap.WithExtensionNewer(spec.GetHotswapSpec().GetExtensionNewer()),
+		hotswap.WithReloadCallback(spec.GetHotswapSpec().GetReloadCallback()),
+		hotswap.WithStaticPlugins(spec.GetHotswapSpec().GetStaticPlugins()),
 	)
 	details, err := swapper.LoadPlugins(nil)
 	if err != nil {

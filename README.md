@@ -1,27 +1,25 @@
 ![Banner](imgs/banner.jpg?raw=true "Hotswap")
 
-[简体中文版](./README.zh-CN.md)
+*`Hotswap`* 为 `go` 语言提供了一套相当完整的代码热更解决方案，热更过程不会中断或阻塞任何执行中的函数，更不会重启服务器。此方案建立在 `go` 语言的 `plugin` 机制之上。
 
-*`Hotswap`* provides you a complete solution to reload your `go` code without restarting your server, interrupting or blocking any ongoing procedure. *`Hotswap`* is built upon the plugin mechanism.
+# 核心功能
 
-# Major Features
+- 轻松热更代码
+- 完全隔离新老版本
+- 通过 `Plugin.InvokeFunc()` 从宿主调用插件中的函数
+- 通过 `PluginManager.Vault.Extension` 和 `PluginManager.Vault.DataBag` 向宿主暴露插件中的数据和函数
+- 借助 `live function`、`live type` 和 `live data` 用最新代码执行异步任务
+- 支持静态链接插件，以方便调试
+- 通过 `Export()` 向其它插件暴露函数
+- 通过 `Import()` 声明、建立对其它插件的依赖
 
-- Reload your code like a breeze
-- Run different versions of a plugin in complete isolation
-- Invoke an in-plugin function from its host program with `Plugin.InvokeFunc()`
-- Expose in-plugin data and functions with `PluginManager.Vault.Extension` and/or `PluginManager.Vault.DataBag`
-- Handle asynchronous jobs using the latest code with `live function`, `live type`, and `live data`
-- Link plugins statically for easy debugging
-- Expose functions to other plugins with `Export()`
-- Depend on other plugins with `Import()`
-
-# Getting Started
+# 安装
 
 ```
 go install github.com/sandwich-go/hotswap/cli/hotswap
 ```
 
-# Build a Plugin from Source Code
+# 编译插件
 
 ```
 Usage:
@@ -44,19 +42,19 @@ Flags:
   -v, --verbose             enable verbose mode
 ```
 
-# Demos
+# 示例
 
-You can find these examples under the `demo` directory. To have a direct experience, start a server with `run.sh` and reload its plugin(s) with `reload.sh`.
+你可以在 `demo` 目录下找到这些例子。为了更直观的体验，运行 `run.sh` 启动服务器，再运行 `reload.sh` 热更插件。
 
-1. `hello` demonstrates the basic usage, including how to organize host and plugin, how to build them, how to load plugin on server startup, how to use `InvokeEach`, and how to reload.
-2. `extension` shows how to define a custom extension and how to use `PluginManager.Vault.Extension`. A small hint: `WithExtensionNewer()`
-3. `livex` is somewhat complex. It shows how to work with `live function`, `live type`, and `live data`.
-4. `slink` is an example of plugin static-linking, with which debugging a plugin with a debugger (delve) under MacOS and Windows becomes possible.
-5. `trine` is the last example. It demonstrates the plugin dependency mechanism.
+1. `hello` 展示了这套方案的基本用法, 包括怎样组织宿主和插件、怎样编译宿主和插件、怎样在服务器启动时加载插件、怎样使用 `InvokeEach`、以及怎样热更。
+2. `extension` 是个关于自定义扩展的例子，它可以告诉你 `PluginManager.Vault.Extension` 的用法。小提示: `WithExtensionNewer()`。
+3. `livex` 比较复杂. 它展示了 `live function`, `live type` 和 `live data` 的用法。
+4. `slink` 展示了静态链接的使用方法。在 MacOS 和 Windows 下，用静态链接才能上调试器（delve）调试。
+5. `trine` 是最后一个例子，它展示了插件的依赖机制。
 
-# Required Functions
+# 必须定义的函数
 
-A plugin must have the following functions defined in its root package.
+每个插件都要在其根 package 下定义以下函数：
 
 ``` go
 // OnLoad gets called after all plugins are successfully loaded and before the Vault is initialized.
@@ -94,7 +92,7 @@ func Reloadable() bool {
 }
 ```
 
-# Order of Execution during Plugin Reload
+# 插件加载过程中上述函数的执行顺序
 
 ```
 1. Reloadable
@@ -105,43 +103,43 @@ func Reloadable() bool {
 6. OnInit
 ```
 
-# Attentions
+# 注意事项
 
-- Build your host program with the environmental variable `CGO_ENABLED=1` and the `-trimpath` flag.
-- Do **not** define any global variable in a reloadable plugin unless it can be discarded at any time or it actually never changes.
-- Do **not** create any long-running goroutine in a plugin, it's error-prone.
-- The same type in different versions of a plugin are actually **not** the same at runtime. Use `live function`, `live type`, and `live data` to avoid the trap.
-- The code of your host program should **never** import any package of any plugin and the code of a plugin should **never** import any package of other plugins.
-- Old versions won't be removed from the memory due to the limitation of golang plugin. However, *`Hotswap`* offers you a chance, the `OnFree` function, to clear caches.
-- It is required to manage your code with `git` and `go module`.
-- It is highly recommended to keep the code of your host program and all its plugins in a same repository.
+- 编译宿主程序时，要加上环境变量 `CGO_ENABLED=1`，并指定编译参数 `-trimpath`。
+- 不要在可热更的插件里定义全局变量，除非这些变量从不改变，或（随时）丢弃其值无不良影响。
+- 不要在插件里启动长时间运行的 goroutine，否则可能导致部分代码无法热更。
+- 小心那些在插件里定义的类型，程序运行时，`go` 认为不同插件版本中的同一类型是不同类型，跨版本赋值、拆箱是行不通的。你可以借助 `live function`, `live type` 和 `live data` 规避这一陷阱。
+- 宿主代码不要 import 任何插件的任何 package；任何插件都不要 import 其它插件的任何 package。
+- 热更后，旧版插件会继续留在内存中，永不释放，这是 `plugin` 的限制导致的。不过你有个清理缓存的机会：`OnFree`。
+- 必须用 `git` 和 `go module` 管理代码。
+- 强烈建议：用同一个代码仓库管理宿主程序和所有插件。
 
 # Live Things
 
-- `live function` is a type of function whose name is prefixed with `live_` (case-insensitive). Live functions are automatically collected and stored in `PluginManager.Vault.LiveFuncs`. For example:
+- `live function` 是以 `live_` 为名字前缀（大小写不敏感）的函数，所有这类函数都会被自动收集起来并存入 `PluginManager.Vault.LiveFuncs`。例如：
 ``` go
 func live_Foo(jobData live.Data) error {
       return nil
 }
 ```
-- `live type` is a type of struct whose name is prefixed with `live_` (case-insensitive). Live types are automatically collected and stored in `PluginManager.Vault.LiveTypes`. For example:
+- `live type` 是以 `live_` 为名字前缀（大小写不敏感）的（struct）类型，所有这类 struct 都会被自动收集起来并存入 `PluginManager.Vault.LiveTypes`。例如：
 ``` go
 type Live_Bar struct {
       N int
 }
 ```
-- [`live data`](https://github.com/edwingeng/live) is a type guardian. You can convert your data into a `live data` object when scheduling an asynchronous job and restore your data from the `live data` object when handling the job.
-- See the demo `livex` for details.
+- [`live data`](https://github.com/edwingeng/live) 是个类型隔离器。你可以在创建异步任务时把任务数据转成 `live data` 对象，再在执行任务时把数据恢复回来。
+- 例子 `livex` 包含更多细节。
 
 # FAQ
 
-- **How can I debug a plugin with a debugger?**
+- **怎样用调试器调试插件？**
 
-Build it with `--staticLink`. For more information, please refer to the demo `slink`.
+构建时用静态链接 `--staticLink`。更多信息请参考演示程序 `slink`。
 
-- **Does `hotswap` work on Windows?**
+- **`hotswap` 能在 Windows 上工作吗？**
 
-Building with `--staticLink` works on Windows, but plugin reloading is not an option because Go's plugin mechanism doesn't support Windows.
+可以，构建时用静态链接 `--staticLink`。不过，在 Windows 上无法热更，因为 `go` 语言的 `plugin` 机制不支持 Windows。
 
 
 &nbsp;<br/>

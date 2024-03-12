@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"runtime/debug"
 	"sort"
@@ -52,13 +52,16 @@ type PluginManagerSwapper struct {
 	mu sync.Mutex
 }
 
-func NewPluginManagerSwapper(pluginDir string, opts ...Option) *PluginManagerSwapper {
-	swapper := &PluginManagerSwapper{Logger: slog.NewDevelopmentConfig().MustBuild()}
-	swapper.opts.pluginDir = pluginDir
-	swapper.opts.freeDelay = time.Minute * 5
-	for _, opt := range opts {
-		opt(swapper)
+func NewPluginManagerSwapper(pluginDir string, opts ...SpecOption) *PluginManagerSwapper {
+	newSpec := NewSpec(opts...)
+	swapper := &PluginManagerSwapper{
+		Logger: newSpec.GetLogger(),
 	}
+	swapper.opts.pluginDir = pluginDir
+	swapper.opts.newExt = newSpec.GetExtensionNewer()
+	swapper.opts.reloadCallback = newSpec.GetReloadCallback()
+	swapper.opts.freeDelay = newSpec.GetFreeDelay()
+	swapper.opts.whitelist = newSpec.GetWhitelist()
 	return swapper
 }
 
@@ -92,7 +95,7 @@ func (sw *PluginManagerSwapper) loadPluginsImpl(data interface{}, cbs []ReloadCa
 		return nil, err
 	}
 
-	a, err := ioutil.ReadDir(absDir)
+	a, err := os.ReadDir(absDir)
 	if err != nil {
 		return nil, err
 	}
@@ -235,48 +238,4 @@ func (d Details) String() string {
 		_, _ = fmt.Fprintf(&buf, "%s: %s", x, d[k])
 	}
 	return buf.String()
-}
-
-type Option func(mgr *PluginManagerSwapper)
-
-// WithLogger replaces the default logger with your own.
-func WithLogger(log slog.Logger) Option {
-	return func(mgr *PluginManagerSwapper) {
-		mgr.Logger = log
-	}
-}
-
-// WithFreeDelay sets the delay time of calling OnFree. The default value is 5 minutes.
-func WithFreeDelay(d time.Duration) Option {
-	return func(mgr *PluginManagerSwapper) {
-		mgr.opts.freeDelay = d
-	}
-}
-
-// WithReloadCallback sets the callback function of reloading.
-func WithReloadCallback(cb ReloadCallback) Option {
-	return func(mgr *PluginManagerSwapper) {
-		mgr.opts.reloadCallback = cb
-	}
-}
-
-// WithExtensionNewer sets the function used to create a new object for PluginManager.Vault.Extension.
-func WithExtensionNewer(newExt func() interface{}) Option {
-	return func(mgr *PluginManagerSwapper) {
-		mgr.opts.newExt = newExt
-	}
-}
-
-// WithStaticPlugins sets the static plugins for static linking.
-func WithStaticPlugins(plugins map[string]*StaticPlugin) Option {
-	return func(mgr *PluginManagerSwapper) {
-		mgr.staticPlugins = plugins
-	}
-}
-
-// WithWhitelist sets the plugins to load explicitly
-func WithWhitelist(pluginNames ...string) Option {
-	return func(mgr *PluginManagerSwapper) {
-		mgr.opts.whitelist = pluginNames
-	}
 }
