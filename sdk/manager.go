@@ -34,3 +34,8 @@ func MustInit(spec *PluginSpec) {
 func GetManager() *hotswap.PluginManagerSwapper {
 	return swapperManager
 }
+
+// Invoke 触发plugin里的方法
+func Invoke(name string, params ...interface{}) {
+	GetManager().Current().InvokeEach(name, params...)
+}

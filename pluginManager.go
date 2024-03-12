@@ -216,7 +216,7 @@ func (pm *PluginManager) loadPlugin(info *fileInfo, data interface{}) error {
 	var missing []string
 	for _, v := range a {
 		if err := p.Lookup(v.symbol, v.fn); err != nil {
-			if err == ErrNotExist {
+			if errors.Is(err, ErrNotExist) {
 				missing = append(missing, v.symbol)
 			} else {
 				return err
