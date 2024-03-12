@@ -8,8 +8,9 @@ require (
 	github.com/edwingeng/tickque v0.0.0-20221029171955-bf3229e79409
 	github.com/fsnotify/fsnotify v1.5.4
 	github.com/pierrec/xxHash v0.1.5
+	github.com/rs/xid v1.4.0
 	github.com/sandwich-go/boost v1.3.12
-	github.com/sandwich-go/logbus v1.1.0-daily.7
+	github.com/sandwich-go/logbus v1.1.1
 	github.com/sandwich-go/xconf-providers v0.1.0-alpha.10
 	github.com/spf13/cobra v1.1.3
 	go.uber.org/atomic v1.10.0
@@ -35,7 +36,6 @@ require (
 	github.com/prometheus/client_model v0.3.0 // indirect
 	github.com/prometheus/common v0.37.0 // indirect
 	github.com/prometheus/procfs v0.8.0 // indirect
-	github.com/rs/xid v1.4.0 // indirect
 	github.com/sandwich-go/zapgen v0.0.0-20220915080429-843fca246b24 // indirect
 	github.com/shirou/gopsutil/v3 v3.22.10 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect

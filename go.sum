@@ -327,8 +327,8 @@ github.com/ryanuber/columnize v0.0.0-20160712163229-9b3edd62028f/go.mod h1:sm1tb
 github.com/sandwich-go/boost v1.3.8/go.mod h1:4A8tolVlDxAClIyCroU+341uIsVurSQyfrc/AP2kiXQ=
 github.com/sandwich-go/boost v1.3.12 h1:d9rLZ89xx8/r2HFk/OrCr8j4GoW7Q23i/SQh9SF8c34=
 github.com/sandwich-go/boost v1.3.12/go.mod h1:4A8tolVlDxAClIyCroU+341uIsVurSQyfrc/AP2kiXQ=
-github.com/sandwich-go/logbus v1.1.0-daily.7 h1:gvueSdnGt5eJ7TikO465UHiHQ6i1ce5La30bjOGrHdQ=
-github.com/sandwich-go/logbus v1.1.0-daily.7/go.mod h1:cWFUNYeiQm4iWo29i3xSRYc+g/ip5EsHQ8Hunly6LSo=
+github.com/sandwich-go/logbus v1.1.1 h1:qt8Q7+r1MOzND4OtKQMiaJiXtIsf6JVwgpjVR1MwiPg=
+github.com/sandwich-go/logbus v1.1.1/go.mod h1:cWFUNYeiQm4iWo29i3xSRYc+g/ip5EsHQ8Hunly6LSo=
 github.com/sandwich-go/xconf-providers v0.1.0-alpha.10 h1:qDnqSYshf1Zt7AeARt6NGsoD5D8vVqLRNEctbmFkzi0=
 github.com/sandwich-go/xconf-providers v0.1.0-alpha.10/go.mod h1:eqFVw8K6BJeuxQTMQQfpqSDYlrctnx3QYH+ZKf1+d1U=
 github.com/sandwich-go/zapgen v0.0.0-20220915080429-843fca246b24 h1:KuOgs9R0jfvnloQciDboOubyg8lYO6gbN7odZmrdw+g=
