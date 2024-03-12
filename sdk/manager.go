@@ -20,7 +20,7 @@ func MustInit(spec *PluginSpec) {
 		hotswap.WithReloadCallback(spec.GetHotswapSpec().GetReloadCallback()),
 		hotswap.WithStaticPlugins(spec.GetHotswapSpec().GetStaticPlugins()),
 	)
-	details, err := swapper.LoadPlugins(spec.GetOnLoadData())
+	details, err := swapper.LoadPlugins(spec.GetOnFirstLoadData())
 	if err != nil {
 		panic(err)
 	} else if len(details) == 0 {

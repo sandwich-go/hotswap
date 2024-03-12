@@ -7,12 +7,13 @@ import "github.com/sandwich-go/hotswap"
 
 // PluginSpec should use NewPluginSpec to initialize it
 type PluginSpec struct {
-	MountDir    string        `usage:"磁盘挂载目录"`                   // annotation@MountDir(comment="磁盘挂载目录")
-	HotReload   bool          `usage:"允许热更新，开启watch目录"`          // annotation@HotReload(comment="允许热更新，开启watch目录")
-	DirsToKeep  int           `usage:"同一service, 磁盘保留发布的目录数"`    // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数")
-	InternalDir string        `usage:"service pod内部携带的plugin目录"` // annotation@InternalDir(comment="service pod内部携带的plugin目录")
-	OnLoadData  interface{}   `usage:"OnLoad的data参数"`            // annotation@OnLoadData(comment="OnLoad的data参数")
-	HotswapSpec *hotswap.Spec // annotation@Spec(comment="hotswap参数")
+	MountDir        string        `usage:"磁盘挂载目录"`                   // annotation@MountDir(comment="磁盘挂载目录")
+	HotReload       bool          `usage:"允许热更新，开启watch目录"`          // annotation@HotReload(comment="允许热更新，开启watch目录")
+	DirsToKeep      int           `usage:"同一service, 磁盘保留发布的目录数"`    // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数")
+	InternalDir     string        `usage:"service pod内部携带的plugin目录"` // annotation@InternalDir(comment="service pod内部携带的plugin目录")
+	OnFirstLoadData interface{}   `usage:"第一次OnLoad的data参数"`         // annotation@OnFirstLoadData(comment="第一次OnLoad的data参数")
+	OnReloadData    interface{}   `usage:"热更时新插件OnLoad的data参数"`      // annotation@OnReloadData(comment="热更时新插件OnLoad的data参数")
+	HotswapSpec     *hotswap.Spec // annotation@Spec(comment="hotswap参数")
 }
 
 // NewPluginSpec new PluginSpec
@@ -78,12 +79,21 @@ func WithInternalDir(v string) PluginSpecOption {
 	}
 }
 
-// WithOnLoadData OnLoad的data参数
-func WithOnLoadData(v interface{}) PluginSpecOption {
+// WithOnFirstLoadData 第一次OnLoad的data参数
+func WithOnFirstLoadData(v interface{}) PluginSpecOption {
 	return func(cc *PluginSpec) PluginSpecOption {
-		previous := cc.OnLoadData
-		cc.OnLoadData = v
-		return WithOnLoadData(previous)
+		previous := cc.OnFirstLoadData
+		cc.OnFirstLoadData = v
+		return WithOnFirstLoadData(previous)
+	}
+}
+
+// WithOnReloadData 热更时新插件OnLoad的data参数
+func WithOnReloadData(v interface{}) PluginSpecOption {
+	return func(cc *PluginSpec) PluginSpecOption {
+		previous := cc.OnReloadData
+		cc.OnReloadData = v
+		return WithOnReloadData(previous)
 	}
 }
 
@@ -111,7 +121,8 @@ func newDefaultPluginSpec() *PluginSpec {
 		WithHotReload(true),
 		WithDirsToKeep(10),
 		WithInternalDir("bin/plugin"),
-		WithOnLoadData(nil),
+		WithOnFirstLoadData(nil),
+		WithOnReloadData(nil),
 		WithHotswapSpec(hotswap.NewSpec()),
 	} {
 		opt(cc)
@@ -121,12 +132,13 @@ func newDefaultPluginSpec() *PluginSpec {
 }
 
 // all getter func
-func (cc *PluginSpec) GetMountDir() string           { return cc.MountDir }
-func (cc *PluginSpec) GetHotReload() bool            { return cc.HotReload }
-func (cc *PluginSpec) GetDirsToKeep() int            { return cc.DirsToKeep }
-func (cc *PluginSpec) GetInternalDir() string        { return cc.InternalDir }
-func (cc *PluginSpec) GetOnLoadData() interface{}    { return cc.OnLoadData }
-func (cc *PluginSpec) GetHotswapSpec() *hotswap.Spec { return cc.HotswapSpec }
+func (cc *PluginSpec) GetMountDir() string             { return cc.MountDir }
+func (cc *PluginSpec) GetHotReload() bool              { return cc.HotReload }
+func (cc *PluginSpec) GetDirsToKeep() int              { return cc.DirsToKeep }
+func (cc *PluginSpec) GetInternalDir() string          { return cc.InternalDir }
+func (cc *PluginSpec) GetOnFirstLoadData() interface{} { return cc.OnFirstLoadData }
+func (cc *PluginSpec) GetOnReloadData() interface{}    { return cc.OnReloadData }
+func (cc *PluginSpec) GetHotswapSpec() *hotswap.Spec   { return cc.HotswapSpec }
 
 // PluginSpecVisitor visitor interface for PluginSpec
 type PluginSpecVisitor interface {
@@ -134,7 +146,8 @@ type PluginSpecVisitor interface {
 	GetHotReload() bool
 	GetDirsToKeep() int
 	GetInternalDir() string
-	GetOnLoadData() interface{}
+	GetOnFirstLoadData() interface{}
+	GetOnReloadData() interface{}
 	GetHotswapSpec() *hotswap.Spec
 }
 

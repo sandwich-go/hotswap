@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 	"os"
 	"os/signal"
@@ -39,7 +38,7 @@ func main() {
 	}
 
 	pid := fmt.Sprint(os.Getpid())
-	if err := ioutil.WriteFile(pidFile, []byte(pid), 0644); err != nil {
+	if err := os.WriteFile(pidFile, []byte(pid), 0644); err != nil {
 		panic(err)
 	}
 
@@ -48,7 +47,7 @@ func main() {
 		hotswap.WithFreeDelay(time.Second*15),
 	)
 	swapper := g.PluginManagerSwapper
-	details, err := swapper.LoadPlugins(nil)
+	details, err := swapper.LoadPlugins("hello onload")
 	if err != nil {
 		panic(err)
 	} else if len(details) == 0 {
@@ -79,7 +78,7 @@ loop:
 				break loop
 			case syscall.SIGUSR1:
 				g.Logger.Info("<hotswap> reloading...")
-				details, err := swapper.Reload(nil)
+				details, err := swapper.Reload("hello reload")
 				if err != nil {
 					panic(err)
 				} else if len(details) == 0 {

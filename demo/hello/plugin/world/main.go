@@ -1,6 +1,8 @@
 package world
 
 import (
+	"time"
+
 	"github.com/sandwich-go/hotswap/demo/hello/g"
 	"github.com/sandwich-go/hotswap/demo/hello/plugin/world/hum"
 	"github.com/sandwich-go/hotswap/vault"
@@ -14,8 +16,21 @@ var (
 	CompileTimeString string
 )
 
+var close = make(chan struct{})
+
 func OnLoad(data interface{}) error {
-	g.Logger.Infof("<%s.%s> OnLoad", pluginName, CompileTimeString)
+	g.Logger.Infof("<%s.%s> OnLoad %s", pluginName, CompileTimeString, data)
+	go func() {
+		for {
+			select {
+			case <-close:
+				g.Logger.Infof("<%s.%s> close", pluginName, CompileTimeString)
+				return
+			case <-time.Tick(time.Second * 3):
+				g.Logger.Infof("<%s.%s> tick", pluginName, CompileTimeString)
+			}
+		}
+	}()
 	return nil
 }
 
@@ -26,6 +41,7 @@ func OnInit(sharedVault *vault.Vault) error {
 
 func OnFree() {
 	g.Logger.Infof("<%s.%s> OnFree", pluginName, CompileTimeString)
+	close <- struct{}{}
 }
 
 func Export() interface{} {
