@@ -62,6 +62,7 @@ func NewPluginManagerSwapper(pluginDir string, opts ...SpecOption) *PluginManage
 	swapper.opts.reloadCallback = newSpec.GetReloadCallback()
 	swapper.opts.freeDelay = newSpec.GetFreeDelay()
 	swapper.opts.whitelist = newSpec.GetWhitelist()
+	swapper.staticPlugins = newSpec.GetStaticPlugins()
 	return swapper
 }
 

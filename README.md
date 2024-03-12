@@ -135,7 +135,7 @@ type Live_Bar struct {
 
 - **怎样用调试器调试插件？**
 
-构建时用静态链接 `--staticLink`。更多信息请参考演示程序 `slink`。
+构建plugin时用静态链接 `--staticLink`，会使用模版生成`hotswap.staticPlugins.go`。在宿主代码中传入`hotswap.WithStaticPlugins`, 会将插件代码编译到宿主程序中运行，调用方式和plugin so模式一致。更多信息请参考演示程序 `slink`。
 
 - **`hotswap` 能在 Windows 上工作吗？**
 
