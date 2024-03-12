@@ -70,7 +70,7 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 	loader.MustWatch(flagFile, module.ProcessShutdownNotify(),
 		func(ctx context.Context, key string, data []byte) error {
 			GetManager().ResetPluginDir(watchDir)
-			_, err := GetManager().Reload(nil)
+			_, err := GetManager().Reload(spec.GetOnLoadData())
 			if err != nil {
 				logbus.Error("hotswap reload plugin", logbus.String("pluginDir", watchDir), logbus.ErrorField(err))
 			} else {

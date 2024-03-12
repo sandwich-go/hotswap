@@ -11,6 +11,7 @@ type PluginSpec struct {
 	HotReload   bool          `usage:"允许热更新，开启watch目录"`          // annotation@HotReload(comment="允许热更新，开启watch目录")
 	DirsToKeep  int           `usage:"同一service, 磁盘保留发布的目录数"`    // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数")
 	InternalDir string        `usage:"service pod内部携带的plugin目录"` // annotation@InternalDir(comment="service pod内部携带的plugin目录")
+	OnLoadData  interface{}   `usage:"OnLoad的data参数"`            // annotation@OnLoadData(comment="OnLoad的data参数")
 	HotswapSpec *hotswap.Spec // annotation@Spec(comment="hotswap参数")
 }
 
@@ -77,6 +78,15 @@ func WithInternalDir(v string) PluginSpecOption {
 	}
 }
 
+// WithOnLoadData OnLoad的data参数
+func WithOnLoadData(v interface{}) PluginSpecOption {
+	return func(cc *PluginSpec) PluginSpecOption {
+		previous := cc.OnLoadData
+		cc.OnLoadData = v
+		return WithOnLoadData(previous)
+	}
+}
+
 // WithHotswapSpec option func for filed HotswapSpec
 func WithHotswapSpec(v *hotswap.Spec) PluginSpecOption {
 	return func(cc *PluginSpec) PluginSpecOption {
@@ -101,6 +111,7 @@ func newDefaultPluginSpec() *PluginSpec {
 		WithHotReload(true),
 		WithDirsToKeep(10),
 		WithInternalDir("bin/plugin"),
+		WithOnLoadData(nil),
 		WithHotswapSpec(hotswap.NewSpec()),
 	} {
 		opt(cc)
@@ -114,6 +125,7 @@ func (cc *PluginSpec) GetMountDir() string           { return cc.MountDir }
 func (cc *PluginSpec) GetHotReload() bool            { return cc.HotReload }
 func (cc *PluginSpec) GetDirsToKeep() int            { return cc.DirsToKeep }
 func (cc *PluginSpec) GetInternalDir() string        { return cc.InternalDir }
+func (cc *PluginSpec) GetOnLoadData() interface{}    { return cc.OnLoadData }
 func (cc *PluginSpec) GetHotswapSpec() *hotswap.Spec { return cc.HotswapSpec }
 
 // PluginSpecVisitor visitor interface for PluginSpec
@@ -122,6 +134,7 @@ type PluginSpecVisitor interface {
 	GetHotReload() bool
 	GetDirsToKeep() int
 	GetInternalDir() string
+	GetOnLoadData() interface{}
 	GetHotswapSpec() *hotswap.Spec
 }
 

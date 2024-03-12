@@ -9,6 +9,7 @@ func PluginSpecOptionDeclareWithDefault() interface{} {
 		"HotReload":   true,                               // annotation@HotReload(comment="允许热更新，开启watch目录")
 		"DirsToKeep":  10,                                 // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数")
 		"InternalDir": "bin/plugin",                       // annotation@InternalDir(comment="service pod内部携带的plugin目录")
+		"OnLoadData":  interface{}(nil),                   // annotation@OnLoadData(comment="OnLoad的data参数")
 		"HotswapSpec": (*hotswap.Spec)(hotswap.NewSpec()), // annotation@Spec(comment="hotswap参数")
 	}
 }
