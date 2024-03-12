@@ -36,6 +36,13 @@ func GetManager() *hotswap.PluginManagerSwapper {
 }
 
 // Invoke 触发plugin里的方法
+// example: Invoke("meow", repeat)
 func Invoke(name string, params ...interface{}) {
 	GetManager().Current().InvokeEach(name, params...)
+}
+
+// Extension 返回 HotswapSpec.ExtensionNewer 里的方法
+// example: Extension().(*g.VaultExtension).Meow(repeat)
+func Extension() interface{} {
+	return GetManager().Current().Extension
 }
