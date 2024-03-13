@@ -11,27 +11,27 @@ import (
 	"github.com/sandwich-go/logbus"
 )
 
-const EnvCommitId = "current_revision"
-const EnvServiceName = "sys_cd_service"
-const EnvCdEnv = "sys_cd_env"
-const EnvStage = "sys_stage"
-const FlagFileName = "version.txt"
+const envCommitId = "current_revision"
+const envServiceName = "sys_cd_service"
+const envCdEnv = "sys_cd_env"
+const envStage = "sys_stage"
+const flagFileName = "version.txt"
 
 func initWatchDir(spec *PluginSpec) (loadDir string) {
 	if !spec.GetHotReload() {
 		return spec.GetInternalDir()
 	}
-	commitId := os.Getenv(EnvCommitId)
-	serviceName := os.Getenv(EnvServiceName)
-	cdEnv := os.Getenv(EnvCdEnv)
-	stage := os.Getenv(EnvStage)
+	commitId := os.Getenv(envCommitId)
+	serviceName := os.Getenv(envServiceName)
+	cdEnv := os.Getenv(envCdEnv)
+	stage := os.Getenv(envStage)
 
 	var watchDir = spec.GetInternalDir()
 	if commitId != "" { // in k8s
 		// /mount/data/test/gate/online/c2das4/bin/plugin
 		watchDir = path.Join(spec.GetMountDir(), cdEnv, serviceName, stage, commitId, spec.GetInternalDir())
 	}
-	flagFile := path.Join(watchDir, FlagFileName)
+	flagFile := path.Join(watchDir, flagFileName)
 	// 检查目录是否存在
 	_, err := os.Stat(watchDir)
 	if os.IsNotExist(err) {

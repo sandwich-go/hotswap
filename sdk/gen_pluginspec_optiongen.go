@@ -3,17 +3,23 @@
 
 package sdk
 
-import "github.com/sandwich-go/hotswap"
+import (
+	"time"
+
+	"github.com/sandwich-go/hotswap"
+)
 
 // PluginSpec should use NewPluginSpec to initialize it
 type PluginSpec struct {
-	MountDir        string        `usage:"磁盘挂载目录"`                   // annotation@MountDir(comment="磁盘挂载目录")
-	HotReload       bool          `usage:"允许热更新，开启watch目录"`          // annotation@HotReload(comment="允许热更新，开启watch目录")
-	DirsToKeep      int           `usage:"同一service, 磁盘保留发布的目录数"`    // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数")
-	InternalDir     string        `usage:"service pod内部携带的plugin目录"` // annotation@InternalDir(comment="service pod内部携带的plugin目录")
-	OnFirstLoadData interface{}   `usage:"第一次OnLoad的data参数"`         // annotation@OnFirstLoadData(comment="第一次OnLoad的data参数")
-	OnReloadData    interface{}   `usage:"热更时新插件OnLoad的data参数"`      // annotation@OnReloadData(comment="热更时新插件OnLoad的data参数")
-	HotswapSpec     *hotswap.Spec // annotation@Spec(comment="hotswap参数")
+	MountDir        string                           `usage:"磁盘挂载目录"`                                                                      // annotation@MountDir(comment="磁盘挂载目录")
+	HotReload       bool                             `usage:"允许热更新，开启watch目录"`                                                             // annotation@HotReload(comment="允许热更新，开启watch目录")
+	DirsToKeep      int                              `usage:"同一service, 磁盘保留发布的目录数"`                                                       // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数")
+	InternalDir     string                           `usage:"service pod内部携带的plugin目录"`                                                    // annotation@InternalDir(comment="service pod内部携带的plugin目录")
+	OnFirstLoadData interface{}                      `usage:"第一次OnLoad的data参数"`                                                            // annotation@OnFirstLoadData(comment="第一次OnLoad的data参数")
+	OnReloadData    interface{}                      `usage:"热更时新插件OnLoad的data参数"`                                                         // annotation@OnReloadData(comment="热更时新插件OnLoad的data参数")
+	FreeDelay       time.Duration                    `usage:"the delay time of calling OnFree. The default value is 5 minutes."`           // annotation@FreeDelay(comment="the delay time of calling OnFree. The default value is 5 minutes.")
+	ExtensionNewer  func() interface{}               `usage:"the function used to create a new object for PluginManager.Vault.Extension."` // annotation@ExtensionNewer(comment="the function used to create a new object for PluginManager.Vault.Extension.")
+	StaticPlugins   map[string]*hotswap.StaticPlugin `usage:"the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows"`          // annotation@StaticPlugins(comment="the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows")
 }
 
 // NewPluginSpec new PluginSpec
@@ -97,12 +103,30 @@ func WithOnReloadData(v interface{}) PluginSpecOption {
 	}
 }
 
-// WithHotswapSpec option func for filed HotswapSpec
-func WithHotswapSpec(v *hotswap.Spec) PluginSpecOption {
+// WithFreeDelay the delay time of calling OnFree. The default value is 5 minutes.
+func WithFreeDelay(v time.Duration) PluginSpecOption {
 	return func(cc *PluginSpec) PluginSpecOption {
-		previous := cc.HotswapSpec
-		cc.HotswapSpec = v
-		return WithHotswapSpec(previous)
+		previous := cc.FreeDelay
+		cc.FreeDelay = v
+		return WithFreeDelay(previous)
+	}
+}
+
+// WithExtensionNewer the function used to create a new object for PluginManager.Vault.Extension.
+func WithExtensionNewer(v func() interface{}) PluginSpecOption {
+	return func(cc *PluginSpec) PluginSpecOption {
+		previous := cc.ExtensionNewer
+		cc.ExtensionNewer = v
+		return WithExtensionNewer(previous)
+	}
+}
+
+// WithStaticPlugins the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows
+func WithStaticPlugins(v map[string]*hotswap.StaticPlugin) PluginSpecOption {
+	return func(cc *PluginSpec) PluginSpecOption {
+		previous := cc.StaticPlugins
+		cc.StaticPlugins = v
+		return WithStaticPlugins(previous)
 	}
 }
 
@@ -123,7 +147,9 @@ func newDefaultPluginSpec() *PluginSpec {
 		WithInternalDir("bin/plugin"),
 		WithOnFirstLoadData(nil),
 		WithOnReloadData(nil),
-		WithHotswapSpec(hotswap.NewSpec()),
+		WithFreeDelay(15 * time.Second),
+		WithExtensionNewer(nil),
+		WithStaticPlugins(nil),
 	} {
 		opt(cc)
 	}
@@ -132,13 +158,15 @@ func newDefaultPluginSpec() *PluginSpec {
 }
 
 // all getter func
-func (cc *PluginSpec) GetMountDir() string             { return cc.MountDir }
-func (cc *PluginSpec) GetHotReload() bool              { return cc.HotReload }
-func (cc *PluginSpec) GetDirsToKeep() int              { return cc.DirsToKeep }
-func (cc *PluginSpec) GetInternalDir() string          { return cc.InternalDir }
-func (cc *PluginSpec) GetOnFirstLoadData() interface{} { return cc.OnFirstLoadData }
-func (cc *PluginSpec) GetOnReloadData() interface{}    { return cc.OnReloadData }
-func (cc *PluginSpec) GetHotswapSpec() *hotswap.Spec   { return cc.HotswapSpec }
+func (cc *PluginSpec) GetMountDir() string                                { return cc.MountDir }
+func (cc *PluginSpec) GetHotReload() bool                                 { return cc.HotReload }
+func (cc *PluginSpec) GetDirsToKeep() int                                 { return cc.DirsToKeep }
+func (cc *PluginSpec) GetInternalDir() string                             { return cc.InternalDir }
+func (cc *PluginSpec) GetOnFirstLoadData() interface{}                    { return cc.OnFirstLoadData }
+func (cc *PluginSpec) GetOnReloadData() interface{}                       { return cc.OnReloadData }
+func (cc *PluginSpec) GetFreeDelay() time.Duration                        { return cc.FreeDelay }
+func (cc *PluginSpec) GetExtensionNewer() func() interface{}              { return cc.ExtensionNewer }
+func (cc *PluginSpec) GetStaticPlugins() map[string]*hotswap.StaticPlugin { return cc.StaticPlugins }
 
 // PluginSpecVisitor visitor interface for PluginSpec
 type PluginSpecVisitor interface {
@@ -148,7 +176,9 @@ type PluginSpecVisitor interface {
 	GetInternalDir() string
 	GetOnFirstLoadData() interface{}
 	GetOnReloadData() interface{}
-	GetHotswapSpec() *hotswap.Spec
+	GetFreeDelay() time.Duration
+	GetExtensionNewer() func() interface{}
+	GetStaticPlugins() map[string]*hotswap.StaticPlugin
 }
 
 // PluginSpecInterface visitor + ApplyOption interface for PluginSpec

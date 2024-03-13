@@ -15,8 +15,8 @@ type ZapLogger struct {
 	x *zap.SugaredLogger
 }
 
-// NewZapLogger creates a new ZapLogger.
-func NewZapLogger() *ZapLogger {
+// newZapLogger creates a new ZapLogger.
+func newZapLogger() *ZapLogger {
 	return &ZapLogger{
 		x: logbus.GetZapLogger().Sugar(),
 	}

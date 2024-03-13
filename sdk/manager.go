@@ -13,12 +13,10 @@ var swapperManager *hotswap.PluginManagerSwapper
 func MustInit(spec *PluginSpec) {
 	pluginDir := initWatchDir(spec)
 	swapper := hotswap.NewPluginManagerSwapper(pluginDir,
-		hotswap.WithLogger(NewZapLogger()), // use logbus
-		hotswap.WithFreeDelay(spec.GetHotswapSpec().GetFreeDelay()),
-		hotswap.WithWhitelist(spec.GetHotswapSpec().GetWhitelist()...),
-		hotswap.WithExtensionNewer(spec.GetHotswapSpec().GetExtensionNewer()),
-		hotswap.WithReloadCallback(spec.GetHotswapSpec().GetReloadCallback()),
-		hotswap.WithStaticPlugins(spec.GetHotswapSpec().GetStaticPlugins()),
+		hotswap.WithLogger(newZapLogger()), // use logbus
+		hotswap.WithFreeDelay(spec.GetFreeDelay()),
+		hotswap.WithExtensionNewer(spec.GetExtensionNewer()),
+		hotswap.WithStaticPlugins(spec.GetStaticPlugins()),
 	)
 	details, err := swapper.LoadPlugins(spec.GetOnFirstLoadData())
 	if err != nil {
