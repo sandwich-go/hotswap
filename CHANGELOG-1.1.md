@@ -1,4 +1,12 @@
-### v1.1.5 🌈 (2024-03-13 15:18:34)
+### v1.1.6 🌈 (2024-03-18 16:01:48)
+
+#### 🚀  New Feature
+  * sdk增加reload结果打印 ([ef91bb0](https://github.com/sandwich-go/hotswap/commit/ef91bb0f31f4b4e5cd7d6ccf2c2e26957463a397)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-18 16:01:48 &#43;0800 &#43;0800</small>)
+
+#### 🤖  Tools
+  * **sem**: make changelog ([60190e2](https://github.com/sandwich-go/hotswap/commit/60190e2470701a9644c46ae41301f02031460126)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-13 15:25:50 &#43;0800 &#43;0800</small>)
+
+### v1.1.5 (2024-03-13 15:18:34)
 
 #### 🚀  New Feature
   * add staticLink for sdk ([6c12ff1](https://github.com/sandwich-go/hotswap/commit/6c12ff105ee7f54b6c2596b8f862f5b4d33875ab)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-11 19:31:30 &#43;0800 &#43;0800</small>)
