@@ -73,6 +73,7 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 	loader.MustWatch(flagFile, module.ProcessShutdownNotify(),
 		func(ctx context.Context, key string, data []byte) error {
 			newPatchVersion := string(data)
+			logbus.Debug("hotswap detect file change", logbus.String("flagFile", flagFile), logbus.String("newPatchVersion", newPatchVersion))
 			GetManager().ResetPluginDir(watchDir)
 			_, err := GetManager().Reload(spec.GetOnReloadData())
 			if err != nil {
