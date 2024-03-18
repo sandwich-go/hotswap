@@ -2,13 +2,14 @@ package sdk
 
 import (
 	"context"
-	"github.com/gofrs/flock"
-	"github.com/sandwich-go/boost/module"
-	"github.com/sandwich-go/logbus"
 	"io/fs"
 	"os"
 	"path"
 	"sort"
+
+	"github.com/gofrs/flock"
+	"github.com/sandwich-go/boost/module"
+	"github.com/sandwich-go/logbus"
 )
 
 const envCommitId = "current_revision"
@@ -106,6 +107,9 @@ func writeResult(watchDir string, newPatchVersion []byte) {
 }
 
 func cleanDir(dir string, dirsToKeep int) {
+	if dirsToKeep <= 0 {
+		return
+	}
 	entries, err := os.ReadDir(dir)
 	if err != nil {
 		panic(err)
