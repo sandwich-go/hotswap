@@ -2,20 +2,23 @@ package sdk
 
 import (
 	"context"
+	"github.com/gofrs/flock"
+	"github.com/sandwich-go/boost/module"
+	"github.com/sandwich-go/logbus"
 	"io/fs"
 	"os"
 	"path"
 	"sort"
-
-	"github.com/sandwich-go/boost/module"
-	"github.com/sandwich-go/logbus"
 )
 
 const envCommitId = "current_revision"
 const envServiceName = "sys_cd_service"
 const envCdEnv = "sys_cd_env"
 const envStage = "sys_stage"
-const flagFileName = "version.txt"
+
+const flagFileName = "version.txt"        // plugin 发布时的版本信息
+const reloadResultFileName = "result.txt" // 主程序reload的结果
+const lockFileName = "result.lock"
 
 func initWatchDir(spec *PluginSpec) (loadDir string) {
 	if !spec.GetHotReload() {
@@ -69,17 +72,36 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 	loader := newLocalLoader()
 	loader.MustWatch(flagFile, module.ProcessShutdownNotify(),
 		func(ctx context.Context, key string, data []byte) error {
+			newPatchVersion := string(data)
 			GetManager().ResetPluginDir(watchDir)
 			_, err := GetManager().Reload(spec.GetOnReloadData())
 			if err != nil {
-				logbus.Error("hotswap reload plugin", logbus.String("pluginDir", watchDir), logbus.ErrorField(err))
+				logbus.Error("hotswap reload plugin", logbus.String("pluginDir", watchDir), logbus.String("newPatchVersion", newPatchVersion), logbus.ErrorField(err))
 			} else {
-				logbus.Info("hotswap reload success", logbus.String("pluginDir", watchDir))
+				patchVersion = newPatchVersion
+				writeResult(watchDir, data)
+				logbus.Info("hotswap reload success", logbus.String("pluginDir", watchDir), logbus.String("newPatchVersion", newPatchVersion))
 			}
 			return nil
 		})
 	logbus.Info("hotswap start watching", logbus.String("watchFile", flagFile))
 	return
+}
+
+func writeResult(watchDir string, newPatchVersion []byte) {
+	fileLock := flock.New(path.Join(watchDir, lockFileName))
+	locked, err := fileLock.TryLock() // 抢占式 非阻塞
+	if err != nil {
+		logbus.Error("hotswap lock file", logbus.ErrorField(err))
+		return
+	}
+	if locked {
+		err = os.WriteFile(path.Join(watchDir, reloadResultFileName), newPatchVersion, 0644)
+		if err != nil {
+			logbus.Error("hotswap lock and write file", logbus.ErrorField(err))
+		}
+		_ = fileLock.Unlock()
+	}
 }
 
 func cleanDir(dir string, dirsToKeep int) {

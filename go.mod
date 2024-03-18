@@ -7,6 +7,7 @@ require (
 	github.com/edwingeng/slog v0.0.0-20221027170832-482f0dfb6247
 	github.com/edwingeng/tickque v0.0.0-20221029171955-bf3229e79409
 	github.com/fsnotify/fsnotify v1.5.4
+	github.com/gofrs/flock v0.8.1
 	github.com/pierrec/xxHash v0.1.5
 	github.com/rs/xid v1.4.0
 	github.com/sandwich-go/boost v1.3.12
@@ -41,6 +42,6 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 )

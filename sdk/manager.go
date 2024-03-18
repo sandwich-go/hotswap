@@ -6,6 +6,13 @@ import (
 )
 
 var swapperManager *hotswap.PluginManagerSwapper
+var patchVersion = ""
+
+// GetPatchVersion 获取当前加载的plugin版本信息
+// 默认为空
+func GetPatchVersion() string {
+	return patchVersion
+}
 
 // MustInit initializes the plugin manager.
 // MountDir 是在pmt里设置的磁盘挂载目录, 只对k8s环境生效
