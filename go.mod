@@ -6,7 +6,7 @@ require (
 	github.com/edwingeng/live v0.0.0-20221020163417-c7b8cccd2e34
 	github.com/edwingeng/slog v0.0.0-20221027170832-482f0dfb6247
 	github.com/edwingeng/tickque v0.0.0-20221029171955-bf3229e79409
-	github.com/fsnotify/fsnotify v1.5.4
+	github.com/fsnotify/fsnotify v1.7.0
 	github.com/gofrs/flock v0.8.1
 	github.com/pierrec/xxHash v0.1.5
 	github.com/rs/xid v1.4.0
@@ -16,8 +16,8 @@ require (
 	github.com/spf13/cobra v1.1.3
 	go.uber.org/atomic v1.10.0
 	go.uber.org/zap v1.23.0
-	golang.org/x/mod v0.8.0
-	golang.org/x/tools v0.1.12
+	golang.org/x/mod v0.16.0
+	golang.org/x/tools v0.19.0
 )
 
 require (

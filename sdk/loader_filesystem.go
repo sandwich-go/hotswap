@@ -62,7 +62,7 @@ func (p *filesystemLoader) MustWatch(
 		for {
 			select {
 			case event := <-watcher.Events():
-				if (event.Op & fsnotify.Write) == fsnotify.Write {
+				if event.Has(fsnotify.Write) {
 					if b, err := p.Read(path); err == nil && len(b) != 0 {
 						if p.isChange(path, b) {
 							err := loaderFunc(context.Background(), path, b)
@@ -76,6 +76,7 @@ func (p *filesystemLoader) MustWatch(
 				}
 			case err := <-watcher.Errors():
 				logbus.Error("plugin filesystemLoader watcher error", logbus.ErrorField(err))
+				return
 			case <-exitChan:
 				return
 			}
