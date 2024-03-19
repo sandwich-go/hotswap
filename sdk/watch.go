@@ -99,12 +99,26 @@ func writeResult(watchDir string, newPatchVersion []byte) {
 		return
 	}
 	if locked {
-		err = os.WriteFile(path.Join(watchDir, reloadResultFileName), newPatchVersion, 0644)
+		err = writeAndSync(path.Join(watchDir, reloadResultFileName), newPatchVersion)
 		if err != nil {
 			logbus.Error("hotswap lock and write file", logbus.ErrorField(err))
 		}
 		_ = fileLock.Unlock()
 	}
+}
+
+func writeAndSync(name string, data []byte) error {
+	f, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	_, err = f.Write(data)
+	if err != nil {
+		return err
+	}
+	err = f.Sync()
+	return err
 }
 
 func cleanDir(dir string, dirsToKeep int) {
