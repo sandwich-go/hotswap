@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"sort"
+	"strings"
 
 	"github.com/gofrs/flock"
 	"github.com/sandwich-go/boost/module"
@@ -80,9 +81,9 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 			if err != nil {
 				logbus.Error("hotswap reload plugin", logbus.String("pluginDir", watchDir), logbus.String("newPatchVersion", newPatchVersion), logbus.ErrorField(err))
 			} else {
-				patchVersion = newPatchVersion
+				patchVersion = strings.TrimSuffix(newPatchVersion, "\n")
 				writeResult(watchDir, data)
-				logbus.Info("hotswap reload success", logbus.String("pluginDir", watchDir), logbus.String("newPatchVersion", newPatchVersion))
+				logbus.Info("hotswap reload success", logbus.String("pluginDir", watchDir), logbus.String("newPatchVersion", patchVersion))
 			}
 			return nil
 		})
