@@ -1,4 +1,22 @@
-### v1.1.6 🌈 (2024-03-18 16:01:48)
+### v1.1.8 🌈 (2024-03-19 14:20:52)
+
+#### 🚀  New Feature
+  * DirsToKeep 支持0 ([f89df83](https://github.com/sandwich-go/hotswap/commit/f89df83def86c33e030dfd38b12edb1cb5b831d1)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-18 19:25:36 &#43;0800 &#43;0800</small>)
+
+#### 💪  Commit
+  * sdk writeAndSync ([b0ec413](https://github.com/sandwich-go/hotswap/commit/b0ec4138aa3c99eab8c81853b7367d7405255fee)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-19 14:20:52 &#43;0800 &#43;0800</small>)
+  * sdk trim \n ([e3bd980](https://github.com/sandwich-go/hotswap/commit/e3bd9806d3c51494a6d319c0ebf0630ca32d970c)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-19 12:53:33 &#43;0800 &#43;0800</small>)
+  * upgrade fsnotify ([ea70c19](https://github.com/sandwich-go/hotswap/commit/ea70c19e610170ab844e66fb56f38b92f3066ff9)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-19 11:55:00 &#43;0800 &#43;0800</small>)
+
+### v1.1.7 (2024-03-18 18:05:09)
+
+#### 🤖  Tools
+  * **sem**: make changelog ([6b57105](https://github.com/sandwich-go/hotswap/commit/6b57105be81f8719facd831d772035902036fc6e)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-18 16:02:16 &#43;0800 &#43;0800</small>)
+
+#### 💪  Commit
+  * before load log ([87b24be](https://github.com/sandwich-go/hotswap/commit/87b24bebec0cf384930067533f2802818409a6c0)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-18 18:05:09 &#43;0800 &#43;0800</small>)
+
+### v1.1.6 (2024-03-18 16:01:48)
 
 #### 🚀  New Feature
   * sdk增加reload结果打印 ([ef91bb0](https://github.com/sandwich-go/hotswap/commit/ef91bb0f31f4b4e5cd7d6ccf2c2e26957463a397)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-18 16:01:48 &#43;0800 &#43;0800</small>)
