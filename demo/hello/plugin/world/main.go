@@ -1,4 +1,4 @@
-package world
+package main
 
 import (
 	"time"
@@ -20,6 +20,7 @@ var close = make(chan struct{})
 
 func OnLoad(data interface{}) error {
 	g.Logger.Infof("<%s.%s> OnLoad %s", pluginName, CompileTimeString, data)
+	g.FunctionRegisterByPlugin = hum.CPUAndMemoryIntensiveFunction
 	go func() {
 		for {
 			select {
@@ -27,7 +28,7 @@ func OnLoad(data interface{}) error {
 				g.Logger.Infof("<%s.%s> close", pluginName, CompileTimeString)
 				return
 			case <-time.Tick(time.Second * 3):
-				g.Logger.Infof("<%s.%s> tick", pluginName, CompileTimeString)
+				// g.Logger.Infof("<%s.%s> tick", pluginName, CompileTimeString)
 			}
 		}
 	}()
@@ -59,6 +60,8 @@ func InvokeFunc(name string, params ...interface{}) (interface{}, error) {
 	case "hum":
 		repeat := params[0].(int)
 		hum.Hum(pluginName, CompileTimeString, repeat)
+	case "sort":
+		return hum.CPUAndMemoryIntensiveFunction(), nil
 	}
 	return nil, nil
 }
