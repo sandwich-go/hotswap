@@ -11,15 +11,15 @@ import (
 
 // PluginSpec should use NewPluginSpec to initialize it
 type PluginSpec struct {
-	MountDir        string                           `usage:"磁盘挂载目录"`                                                                      // annotation@MountDir(comment="磁盘挂载目录")
-	HotReload       bool                             `usage:"允许热更新，开启watch目录"`                                                             // annotation@HotReload(comment="允许热更新，开启watch目录")
-	DirsToKeep      int                              `usage:"同一service, 磁盘保留发布的目录数。如果设为0，则不删除历史目录"`                                        // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数。如果设为0，则不删除历史目录")
-	InternalDir     string                           `usage:"service pod内部携带的plugin目录"`                                                    // annotation@InternalDir(comment="service pod内部携带的plugin目录")
-	OnFirstLoadData interface{}                      `usage:"第一次OnLoad的data参数"`                                                            // annotation@OnFirstLoadData(comment="第一次OnLoad的data参数")
-	OnReloadData    interface{}                      `usage:"热更时新插件OnLoad的data参数"`                                                         // annotation@OnReloadData(comment="热更时新插件OnLoad的data参数")
-	FreeDelay       time.Duration                    `usage:"the delay time of calling OnFree. The default value is 15 Second."`           // annotation@FreeDelay(comment="the delay time of calling OnFree. The default value is 15 Second.")
-	ExtensionNewer  func() interface{}               `usage:"the function used to create a new object for PluginManager.Vault.Extension."` // annotation@ExtensionNewer(comment="the function used to create a new object for PluginManager.Vault.Extension.")
-	StaticPlugins   map[string]*hotswap.StaticPlugin `usage:"the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows"`          // annotation@StaticPlugins(comment="the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows")
+	MountDir        string                           `usage:"磁盘挂载目录"`                                                                          // annotation@MountDir(comment="磁盘挂载目录")
+	HotReload       bool                             `usage:"允许热更新，开启watch目录"`                                                                 // annotation@HotReload(comment="允许热更新，开启watch目录")
+	DirsToKeep      int                              `usage:"同一service, 磁盘保留发布的目录数。如果设为0，则不删除历史目录"`                                            // annotation@DirsToKeep(comment="同一service, 磁盘保留发布的目录数。如果设为0，则不删除历史目录")
+	InternalDir     string                           `usage:"service pod内部携带的plugin目录"`                                                        // annotation@InternalDir(comment="service pod内部携带的plugin目录")
+	OnFirstLoadData interface{}                      `usage:"第一次OnLoad的data参数"`                                                                // annotation@OnFirstLoadData(comment="第一次OnLoad的data参数")
+	OnReloadData    interface{}                      `usage:"热更时新插件OnLoad的data参数"`                                                             // annotation@OnReloadData(comment="热更时新插件OnLoad的data参数")
+	FreeDelay       time.Duration                    `usage:"the delay time of calling OnFree. The default value && min value is 15 Seconds."` // annotation@FreeDelay(comment="the delay time of calling OnFree. The default value && min value is 15 Seconds.")
+	ExtensionNewer  func() interface{}               `usage:"the function used to create a new object for PluginManager.Vault.Extension."`     // annotation@ExtensionNewer(comment="the function used to create a new object for PluginManager.Vault.Extension.")
+	StaticPlugins   map[string]*hotswap.StaticPlugin `usage:"the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows"`              // annotation@StaticPlugins(comment="the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows")
 }
 
 // NewPluginSpec new PluginSpec
@@ -103,7 +103,7 @@ func WithOnReloadData(v interface{}) PluginSpecOption {
 	}
 }
 
-// WithFreeDelay the delay time of calling OnFree. The default value is 15 Second.
+// WithFreeDelay the delay time of calling OnFree. The default value && min value is 15 Seconds.
 func WithFreeDelay(v time.Duration) PluginSpecOption {
 	return func(cc *PluginSpec) PluginSpecOption {
 		previous := cc.FreeDelay
