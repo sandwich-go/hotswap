@@ -17,7 +17,7 @@ type PluginSpec struct {
 	InternalDir     string                           `usage:"service pod内部携带的plugin目录"`                                                    // annotation@InternalDir(comment="service pod内部携带的plugin目录")
 	OnFirstLoadData interface{}                      `usage:"第一次OnLoad的data参数"`                                                            // annotation@OnFirstLoadData(comment="第一次OnLoad的data参数")
 	OnReloadData    interface{}                      `usage:"热更时新插件OnLoad的data参数"`                                                         // annotation@OnReloadData(comment="热更时新插件OnLoad的data参数")
-	FreeDelay       time.Duration                    `usage:"the delay time of calling OnFree. The default value is 5 minutes."`           // annotation@FreeDelay(comment="the delay time of calling OnFree. The default value is 5 minutes.")
+	FreeDelay       time.Duration                    `usage:"the delay time of calling OnFree. The default value is 15 Second."`           // annotation@FreeDelay(comment="the delay time of calling OnFree. The default value is 15 Second.")
 	ExtensionNewer  func() interface{}               `usage:"the function used to create a new object for PluginManager.Vault.Extension."` // annotation@ExtensionNewer(comment="the function used to create a new object for PluginManager.Vault.Extension.")
 	StaticPlugins   map[string]*hotswap.StaticPlugin `usage:"the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows"`          // annotation@StaticPlugins(comment="the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows")
 }
@@ -103,7 +103,7 @@ func WithOnReloadData(v interface{}) PluginSpecOption {
 	}
 }
 
-// WithFreeDelay the delay time of calling OnFree. The default value is 5 minutes.
+// WithFreeDelay the delay time of calling OnFree. The default value is 15 Second.
 func WithFreeDelay(v time.Duration) PluginSpecOption {
 	return func(cc *PluginSpec) PluginSpecOption {
 		previous := cc.FreeDelay
@@ -136,10 +136,8 @@ func InstallPluginSpecWatchDog(dog func(cc *PluginSpec)) { watchDogPluginSpec = 
 // watchDogPluginSpec global watch dog
 var watchDogPluginSpec func(cc *PluginSpec)
 
-// newDefaultPluginSpec new default PluginSpec
-func newDefaultPluginSpec() *PluginSpec {
-	cc := &PluginSpec{}
-
+// setPluginSpecDefaultValue default PluginSpec value
+func setPluginSpecDefaultValue(cc *PluginSpec) {
 	for _, opt := range [...]PluginSpecOption{
 		WithMountDir("/mount/data"),
 		WithHotReload(true),
@@ -153,7 +151,12 @@ func newDefaultPluginSpec() *PluginSpec {
 	} {
 		opt(cc)
 	}
+}
 
+// newDefaultPluginSpec new default PluginSpec
+func newDefaultPluginSpec() *PluginSpec {
+	cc := &PluginSpec{}
+	setPluginSpecDefaultValue(cc)
 	return cc
 }
 

@@ -15,7 +15,7 @@ func PluginSpecOptionDeclareWithDefault() interface{} {
 		"InternalDir":     "bin/plugin",                          // annotation@InternalDir(comment="service pod内部携带的plugin目录")
 		"OnFirstLoadData": interface{}(nil),                      // annotation@OnFirstLoadData(comment="第一次OnLoad的data参数")
 		"OnReloadData":    interface{}(nil),                      // annotation@OnReloadData(comment="热更时新插件OnLoad的data参数")
-		"FreeDelay":       time.Duration(15 * time.Second),       // annotation@FreeDelay(comment="the delay time of calling OnFree. The default value is 5 minutes.")
+		"FreeDelay":       time.Duration(15 * time.Second),       // annotation@FreeDelay(comment="the delay time of calling OnFree. The default value is 15 Second.")
 		"ExtensionNewer":  (func() interface{})(nil),             // annotation@ExtensionNewer(comment="the function used to create a new object for PluginManager.Vault.Extension.")
 		"StaticPlugins":   map[string]*hotswap.StaticPlugin(nil), // annotation@StaticPlugins(comment="the static plugins for static linking. 宿主程序直接编译的插件 用做debug和windows")
 	}
