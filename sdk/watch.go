@@ -77,9 +77,10 @@ func initWatchDir(spec *PluginSpec) (loadDir string) {
 			newPatchVersion := string(data)
 			logbus.Debug("hotswap detect file change", logbus.String("flagFile", flagFile), logbus.String("newPatchVersion", newPatchVersion))
 			GetManager().ResetPluginDir(watchDir)
-			_, err := GetManager().Reload(spec.GetOnReloadData())
-			if err != nil {
+			_, err1 := GetManager().Reload(spec.GetOnReloadData())
+			if err1 != nil {
 				logbus.Error("hotswap reload plugin", logbus.String("pluginDir", watchDir), logbus.String("newPatchVersion", newPatchVersion), logbus.ErrorField(err))
+				writeResult(watchDir, []byte(err1.Error()))
 			} else {
 				patchVersion = strings.TrimSuffix(newPatchVersion, "\n")
 				writeResult(watchDir, data)
