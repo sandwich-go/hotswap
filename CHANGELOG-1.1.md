@@ -1,4 +1,26 @@
-### v1.1.8 🌈 (2024-03-19 14:20:52)
+### v1.1.11 🌈 (2025-07-14 11:50:01)
+
+#### 💪  Commit
+  * fix MustWatch recover panic ([cc04fb7](https://github.com/sandwich-go/hotswap/commit/cc04fb753fa6e39854b6c344524041c74dddf58d)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2025-07-14 11:50:01 &#43;0800 &#43;0800</small>)
+
+### v1.1.10 (2025-06-24 21:25:20)
+
+#### 💪  Commit
+  * fix load error log ([209b49c](https://github.com/sandwich-go/hotswap/commit/209b49cedb7eda35702e36bab57e8b7493226378)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2025-06-24 21:25:20 &#43;0800 &#43;0800</small>)
+
+### v1.1.9 (2024-06-27 15:45:51)
+
+#### 🐛  Bug Fixed
+  * FreeDelay comment ([a2c1e4b](https://github.com/sandwich-go/hotswap/commit/a2c1e4b2667fb05ac7588944fc4116ead5559427) , [abea233](https://github.com/sandwich-go/hotswap/commit/abea233a53dd717cb03e116e8bf71cedf47235cf)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-05-11 15:53:26 &#43;0800 &#43;0800</small>)
+
+#### 🤖  Tools
+  * **sem**: make changelog ([7ee6ee8](https://github.com/sandwich-go/hotswap/commit/7ee6ee8b1b39e84b481e785c59c6f914ff15c442)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-19 14:21:36 &#43;0800 &#43;0800</small>)
+
+#### 💪  Commit
+  * write error to result.txt ([4268e31](https://github.com/sandwich-go/hotswap/commit/4268e31bf76e0d19a3f7e35a4284bacd014ec97a)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-06-27 15:45:51 &#43;0800 &#43;0800</small>)
+  * add demo benchmark ([110765a](https://github.com/sandwich-go/hotswap/commit/110765ab2e48beebb5d8e1eb207b71b95d994c05)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-26 12:53:46 &#43;0800 &#43;0800</small>)
+
+### v1.1.8 (2024-03-19 14:20:52)
 
 #### 🚀  New Feature
   * DirsToKeep 支持0 ([f89df83](https://github.com/sandwich-go/hotswap/commit/f89df83def86c33e030dfd38b12edb1cb5b831d1)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2024-03-18 19:25:36 &#43;0800 &#43;0800</small>)
