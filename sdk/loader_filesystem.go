@@ -9,10 +9,8 @@ import (
 	"time"
 
 	"github.com/fsnotify/fsnotify"
-
 	"github.com/sandwich-go/boost/xpanic"
 	"github.com/sandwich-go/logbus"
-
 	"github.com/sandwich-go/xconf-providers/pkg/filenotify"
 )
 
@@ -54,34 +52,36 @@ func (p *filesystemLoader) MustWatch(
 	var wg sync.WaitGroup
 	wg.Add(1)
 	// 防止异常退出
-	go xpanic.AutoRecover("filesystemLoader", func() {
-		wg.Done()
+	go func() {
+		wg.Done() // 这里执行起来，watch函数才能退出
 		defer func() {
 			_ = watcher.Close()
 		}()
-		for {
-			select {
-			case event := <-watcher.Events():
-				if event.Has(fsnotify.Write) {
-					if b, err := p.Read(path); err == nil && len(b) != 0 {
-						if p.isChange(path, b) {
-							err := loaderFunc(context.Background(), path, b)
-							if err != nil {
-								logbus.Error(fmt.Sprintf("plugin local watcher error %s", err.Error()))
-							} else {
-								logbus.Debug("plugin local watcher reload succ", logbus.String("path", path))
+		xpanic.AutoRecover("filesystemLoader", func() {
+			for {
+				select {
+				case event := <-watcher.Events():
+					if event.Has(fsnotify.Write) {
+						if b, err := p.Read(path); err == nil && len(b) != 0 {
+							if p.isChange(path, b) {
+								err := loaderFunc(context.Background(), path, b)
+								if err != nil {
+									logbus.Error(fmt.Sprintf("plugin local watcher error %s", err.Error()))
+								} else {
+									logbus.Debug("plugin local watcher reload succ", logbus.String("path", path))
+								}
 							}
 						}
 					}
+				case err := <-watcher.Errors():
+					logbus.Error("plugin filesystemLoader watcher error", logbus.ErrorField(err))
+					return
+				case <-exitChan:
+					return
 				}
-			case err := <-watcher.Errors():
-				logbus.Error("plugin filesystemLoader watcher error", logbus.ErrorField(err))
-				return
-			case <-exitChan:
-				return
 			}
-		}
-	}, xpanic.WithAutoRecoverOptionDelayTime(time.Second))
+		}, xpanic.WithAutoRecoverOptionDelayTime(time.Second))
+	}()
 
 	wg.Wait()
 }
