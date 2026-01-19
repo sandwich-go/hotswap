@@ -1,4 +1,12 @@
-### v1.1.11 🌈 (2025-07-14 11:50:01)
+### v1.1.12 🌈 (2026-01-19 12:16:10)
+
+#### 🐛  Bug Fixed
+  * upgrade golang.org/x/tools ([0e47324](https://github.com/sandwich-go/hotswap/commit/0e473247ba5b8e50777c289ca0be15d277c92d7b)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2026-01-19 12:16:10 &#43;0800 &#43;0800</small>)
+
+#### 🤖  Tools
+  * **sem**: make changelog ([831a103](https://github.com/sandwich-go/hotswap/commit/831a10352bd7ccf2b7fd317f71988a169aa60ba3)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2025-07-14 11:50:26 &#43;0800 &#43;0800</small>)
+
+### v1.1.11 (2025-07-14 11:50:01)
 
 #### 💪  Commit
   * fix MustWatch recover panic ([cc04fb7](https://github.com/sandwich-go/hotswap/commit/cc04fb753fa6e39854b6c344524041c74dddf58d)) (<small>[zhengyang.zhu](zhengyang.zhu@centurygame.com)@2025-07-14 11:50:01 &#43;0800 &#43;0800</small>)
